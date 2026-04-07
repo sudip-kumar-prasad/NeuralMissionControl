@@ -1,53 +1,48 @@
-# Neural Mission Control (V2.0 PRO) 🧠
+# Neural Mission Control
 
-An advanced, interactive Neural Network Learning Laboratory built from scratch with NumPy and Streamlit. This dashboard provides a "Mission Control" experience to visualize exactly how artificial neurons compute, propagate error, and converge on optimal solutions.
+An interactive Neural Network learning tool built with NumPy and Streamlit. This project visualizes how a simple multi-layer perceptron (MLP) learns using forward and backward propagation.
 
-![Advanced UI Preview](https://img.icons8.com/clouds/200/000000/brain-main.png)
+## Features
 
-## 🌟 Key Features
+### 1. Neuron Computation
+- Visualizes activation functions like ReLU, Sigmoid, and Tanh.
+- Shows the math behind weighted sums.
 
-### 📍 1. Symbolic Computation Engine
-- Interactive visualization of **Activation Functions** (ReLU, Sigmoid, Tanh).
-- Mathematical breakdown of weighted sums and non-linearity.
+### 2. Network Topology
+- A dynamic graph that shows the connections between layers.
+- Updates based on the number of hidden layers and neurons you choose.
 
-### 🕸️ 2. System Topology Map
-- Dynamic graph showing connections across multiple hidden layers.
-- Real-time visualization of weight strengths and bias impacts.
+### 3. Decision Boundaries
+- Shows how the network classifies 2D data (Moons, Circles, Blobs).
+- Uses a heatmap to show where the model is confident vs uncertain.
 
-### 🚀 3. Spatial Representation Field
-- 2D Decision Boundary visualization for complex patterns (Moons, Circles, Blobs).
-- Probability density projection with high-contrast Cyan/Magenta aesthetics.
+### 4. Backpropagation
+- Explains the chain rule and how gradients flow backwards.
+- Allows for single-step training updates to see small changes.
 
-### 📉 4. Gradient Descent Manifold
-- Intuitive explanation of **Backpropagation** and the Chain Rule.
-- Step-by-step update execution to see the model learn incrementally.
+### 5. Training Loop
+- A full optimizer that trains the network live.
+- Tracks loss history over epochs.
 
-### 🎓 5. Global Optimizer
-- Live training loop with real-time loss tracking.
-- Interactive controls for Learning Rate, Network Depth, and Noise levels.
+## Setup
 
-## 🛠️ Technology Stack
-- **Framework**: Streamlit (Advanced Python UI)
-- **Engine**: NumPy (Vectorized Neural Network logic)
-- **Visuals**: Plotly (High-performance scientific plotting)
-- **Aesthetic**: Custom CSS (Glassmorphism + Neon Cyber-Pro theme)
-
-## 🚀 Quick Start
+### Requirements
+- streamlit
+- numpy
+- plotly
+- scikit-learn
 
 ### Installation
 ```bash
 pip install streamlit numpy plotly scikit-learn
 ```
 
-### Run the App
+### How to Run
 ```bash
 streamlit run app.py
 ```
 
-## 📂 Project Structure
-- `app.py`: Main interactive dashboard and UI components.
-- `engine.py`: Vectorized MLP engine with state tracking.
-- `style.css`: Advanced "Cyber-Pro" design system.
-
----
-*Built with ❤️ for AI Education.*
+## Files
+- app.py: The main Streamlit dashboard.
+- engine.py: The Neural Network logic (NumPy based).
+- style.css: Custom CSS for the dark theme.
