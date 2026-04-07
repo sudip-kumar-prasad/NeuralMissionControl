@@ -171,6 +171,37 @@ div[data-testid="stVerticalBlock"] > div:has(.metric-card):hover {
     border-color: var(--cyan-glow) !important;
 }
 
+/* Button Pro Styling */
+.stButton > button {
+    background: linear-gradient(135deg, var(--cyan-glow) 0%, #06b6d4 100%) !important;
+    color: #020617 !important;
+    border: none !important;
+    padding: 0.5rem 2rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3) !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(34, 211, 238, 0.5) !important;
+    background: var(--cyan-glow) !important;
+}
+
+/* Number Input Styling */
+div[data-testid="stNumberInput"] {
+    background: rgba(30, 41, 59, 0.4) !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--glass-border) !important;
+}
+
+div[data-testid="stNumberInput"] input {
+    color: var(--text-main) !important;
+}
+
 /* Plotly Optimization */
 .js-plotly-plot {
     border-radius: 12px;

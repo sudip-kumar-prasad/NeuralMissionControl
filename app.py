@@ -54,6 +54,12 @@ if 'model' not in st.session_state or st.sidebar.button("INIT_SYSTEM"):
     st.session_state.history = []
     st.session_state.epoch = 0
 
+# --- PRE-COMPUTE VISUALIZATION GRID (Global Scope) ---
+x_min, x_max = st.session_state.X[:, 0].min() - 0.5, st.session_state.X[:, 0].max() + 0.5
+y_min, y_max = st.session_state.X[:, 1].min() - 0.5, st.session_state.X[:, 1].max() + 0.5
+xx, yy = np.meshgrid(np.linspace(x_min, x_max, 60), np.linspace(y_min, y_max, 60))
+grid = np.c_[xx.ravel(), yy.ravel()]
+
 # --- Top Banner Area ---
 t1, t2, t3, t4 = st.columns(4)
 with t1: ui_metric("STATUS", "OPERATIONAL" if st.session_state.epoch == 0 else "OPTIMIZING", 'cyan')
@@ -145,11 +151,6 @@ with tabs[2]:
     cols = st.columns([1.5, 1])
     
     with cols[0]:
-        x_min, x_max = st.session_state.X[:, 0].min() - 0.5, st.session_state.X[:, 0].max() + 0.5
-        y_min, y_max = st.session_state.X[:, 1].min() - 0.5, st.session_state.X[:, 1].max() + 0.5
-        xx, yy = np.meshgrid(np.linspace(x_min, x_max, 60), np.linspace(y_min, y_max, 60))
-        grid = np.c_[xx.ravel(), yy.ravel()]
-        
         Z = st.session_state.model.forward(grid)
         Z = Z.reshape(xx.shape)
         
@@ -193,6 +194,35 @@ with tabs[4]:
     
     col_ctrl, col_plot = st.columns([1, 2.5])
     
+    with col_plot:
+        plot_placeholder = st.empty()
+        
+        # Initial Plot
+        def render_main_plot():
+            Z = st.session_state.model.forward(grid).reshape(xx.shape)
+            fig_res = go.Figure(data=[
+                go.Contour(
+                    z=Z, x=np.linspace(x_min, x_max, 60), y=np.linspace(y_min, y_max, 60), 
+                    colorscale=[[0, MAGENTA], [0.5, '#020617'], [1, CYAN]], 
+                    opacity=0.8, showscale=False, contours_coloring='heatmap'
+                ),
+                go.Scatter(
+                    x=st.session_state.X[:,0], y=st.session_state.X[:,1], mode='markers', 
+                    marker=dict(size=10, color=st.session_state.y.flatten(), colorscale=[[0, MAGENTA], [1, CYAN]], 
+                                line=dict(width=1.5, color='#fff'))
+                )
+            ])
+            fig_res.update_layout(
+                title=f"OPTIMIZED PATTERN RECOGNITION (EPOCH: {st.session_state.epoch})", 
+                template="plotly_dark", margin=dict(l=0,r=0,t=40,b=0), paper_bgcolor='rgba(0,0,0,0)', 
+                plot_bgcolor='rgba(0,0,0,0)', height=550,
+                xaxis=dict(range=[x_min, x_max], showgrid=False), yaxis=dict(range=[y_min, y_max], showgrid=False)
+            )
+            return fig_res
+
+        # Draw initial state
+        plot_placeholder.plotly_chart(render_main_plot(), use_container_width=True)
+
     with col_ctrl:
         n_epochs = st.number_input("ITERATION_BATCH", 10, 1000, 100)
         train_btn = st.button("RUN GLOBAL OPTIMIZER", use_container_width=True)
@@ -201,13 +231,12 @@ with tabs[4]:
             status_placeholder = st.empty()
             loss_placeholder = st.empty()
             
-            # Simple Loop for Live Monitoring
             for epoch in range(n_epochs):
                 loss = st.session_state.model.train_step(st.session_state.X, st.session_state.y)
                 st.session_state.history.append(loss)
                 st.session_state.epoch += 1
                 
-                if epoch % 5 == 0:
+                if epoch % 10 == 0:
                     # Update History Plot
                     fig_h = px.line(y=st.session_state.history[-200:], 
                                     title="SIGNAL CONVERGENCE (RECENT 200)", 
@@ -216,16 +245,12 @@ with tabs[4]:
                                         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                                         xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.05)'))
                     loss_placeholder.plotly_chart(fig_h, use_container_width=True)
+                    
+                    # UPDATE THE MAIN PLOT IN THE OTHER COLUMN
+                    plot_placeholder.plotly_chart(render_main_plot(), use_container_width=True)
+                    
                     status_placeholder.markdown(f"**CONVERGING...** EPOCH: {st.session_state.epoch} | LOSS: {loss:.5f}")
-
-    with col_plot:
-        Z = st.session_state.model.forward(grid).reshape(xx.shape)
-        fig_res = go.Figure(data=[
-            go.Contour(z=Z, x=np.linspace(x_min, x_max, 60), y=np.linspace(y_min, y_max, 60), 
-                       colorscale=[[0, MAGENTA], [0.5, '#020617'], [1, CYAN]], opacity=0.7, showscale=False),
-            go.Scatter(x=st.session_state.X[:,0], y=st.session_state.X[:,1], mode='markers', 
-                       marker=dict(color=st.session_state.y.flatten(), colorscale=[[0, MAGENTA], [1, CYAN]], line=dict(width=1, color='#fff')))
-        ])
-        fig_res.update_layout(title="OPTIMIZED PATTERN RECOGNITION", template="plotly_dark", 
-                              margin=dict(l=0,r=0,t=40,b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=550)
-        st.plotly_chart(fig_res, use_container_width=True)
+            
+            # Final Final Update
+            plot_placeholder.plotly_chart(render_main_plot(), use_container_width=True)
+            st.success(f"OPTIMIZATION COMPLETE | FINAL LOSS: {st.session_state.history[-1]:.6f}")
