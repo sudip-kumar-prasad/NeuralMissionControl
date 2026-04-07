@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono&display=swap');
+
+:root {
+    --bg-dark: #020617;
+    --cyan-glow: #22d3ee;
+    --magenta-glow: #f472b6;
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+}
+
+/* Base App Styling */
+.stApp {
+    background: var(--bg-dark) !important;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(34, 211, 238, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(244, 114, 182, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.05) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(34, 211, 238, 0.05) 0px, transparent 50%) !important;
+    font-family: 'Outfit', sans-serif !important;
+    color: var(--text-main) !important;
+}
+
+/* GLOBAL TEXT VISIBILITY FIXES */
+[data-testid="stWidgetLabel"] p, 
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stHeader"] {
+    color: var(--text-main) !important;
+    font-weight: 500 !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p {
+    color: var(--text-main) !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.05rem;
+}
+
+[data-testid="stTickBarMin"], 
+[data-testid="stTickBarMax"], 
+[data-testid="stSliderTick"] {
+    color: var(--text-dim) !important;
+    font-size: 0.75rem !important;
+}
+
+.st-emotion-cache-ztfqz8 span {
+    color: var(--text-main) !important;
+}
+
+/* Sidebar Headers */
+[data-testid="stSidebar"] h1, 
+[data-testid="stSidebar"] h2, 
+[data-testid="stSidebar"] h3 {
+    color: var(--cyan-glow) !important;
+    -webkit-text-fill-color: var(--cyan-glow) !important;
+    margin-top: 2rem !important;
+}
+
+/* Custom Animated Background Overlay */
+.stApp::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Headers with Neon Flare */
+h1, h2, h3 {
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
+}
+
+/* Glass-Pro Components */
+div[data-testid="stVerticalBlock"] > div:has(.metric-card) {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+div[data-testid="stVerticalBlock"] > div:has(.metric-card):hover {
+    border-color: rgba(34, 211, 238, 0.3);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Tabs: Mission Control Style */
+.stTabs [data-baseweb="tab-list"] {
+    background: rgba(30, 41, 59, 0.4);
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    margin-bottom: 2rem;
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #64748b;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.15) 0%, rgba(244, 114, 182, 0.1) 100%) !important;
+    color: #fff !important;
+    box-shadow: inset 0 0 10px rgba(34, 211, 238, 0.1), 0 4px 12px rgba(0,0,0,0.2) !important;
+}
+
+/* Sidebar Custom Theme */
+[data-testid="stSidebar"] {
+    background-color: #020617 !important;
+    border-right: 1px solid var(--glass-border);
+}
+
+[data-testid="stSidebarNav"] {
+    background-color: transparent !important;
+}
+
+/* Metric Cards */
+.metric-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--cyan-glow);
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+}
+
+/* Pulse Animation for Training */
+@keyframes pulse-cyan {
+    0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(34, 211, 238, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+}
+
+.training-active {
+    animation: pulse-cyan 2s infinite;
+    border-color: var(--cyan-glow) !important;
+}
+
+/* Plotly Optimization */
+.js-plotly-plot {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
