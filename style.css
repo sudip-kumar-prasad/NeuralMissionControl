@@ -23,6 +23,17 @@
     color: var(--text-main) !important;
 }
 
+/* Explicitly target the main content area */
+.main {
+    background-color: transparent !important;
+}
+
+/* Target and hide the header specifically */
+[data-testid="stHeader"] {
+    background: transparent !important;
+    color: transparent !important;
+}
+
 /* GLOBAL TEXT VISIBILITY FIXES */
 [data-testid="stWidgetLabel"] p, 
 [data-testid="stMarkdownContainer"] p,
@@ -165,4 +176,15 @@ div[data-testid="stVerticalBlock"] > div:has(.metric-card):hover {
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--glass-border);
+    background-color: transparent !important;
 }
+
+.js-plotly-plot .main-svg {
+    background-color: transparent !important;
+}
+
+/* Hide Streamlit Header & Footer */
+header { visibility: hidden; }
+footer { visibility: hidden; }
+#MainMenu { visibility: hidden; }
+.stDeployButton { visibility: hidden; }
